@@ -268,6 +268,76 @@ An IP address conflict occurred during this step. It was identified and resolved
 
 
 
+---
 
+
+# 🐬 Wireshark SOC Report: Week 1
+
+Role: 👨‍💻 SOC Analyst (internship)
+
+Tool: 🐬 Wireshark
+
+Scope: 💻 6 labs, each with a `.pcap` and 10 tasks
+
+## Summary
+Six packet captures were analyzed to practice finding attackers, reconstructing conversations, recovering clear-text credentials, detecting brute-force attacks, and investigating a VoIP scam call.
+
+## Method
+🔎 Review **Statistics, Protocol Hierarchy** and **Conversations** to find suspicious hosts.
+
+🔎 Isolate traffic with display filters (`ip.address == , `tcp.stream', `http.request.method == "POST"`, `sip`, `rtp`).
+
+🔎 Use **Follow - TCP Stream** to read full conversations.
+
+🔎 Record findings and IOCs, with screenshots.
+
+
+## Findings
+
+| # | Lab | Key finding | Technique |
+|---|-----|-------------|-----------|
+| 1 | Identify the Attacker's IP | Attacker:👨‍💻 | Statistics → Conversations |
+| 2 | Follow TCP Stream 1 | Data recovered: _..._ | Follow → TCP Stream |
+| 3 | Follow TCP Stream, Part 2 | Hidden data in stream _N_: _..._ | `tcp.stream eq N` |
+| 4 | HTTP Plain Text Credentials | User _..._ sent password over HTTP (redacted) | `http.request.method == "POST"` |
+| 5 | Catch the Brute Force Attacker | Attacker👨‍💻, _N_ attempts, login success: ✅️ | Repeated POSTs from one IP |
+| 6 | Catch the Call Scammer | Caller _SIP URI_ from ____| Telephony → VoIP Calls → Play Streams |
+
+📸 Screenshots: From different labs and some results
+
+![Passed test screenshot](https://github.com/user-attachments/assets/c05a11a9-8fac-4419-9132-01b5166ab260)
+
+
+
+![passed test Screenshot](https://github.com/user-attachments/assets/3ef1131b-cd0b-45f5-99f3-1b319434f018)
+
+
+
+![HTTP plain test lab](https://github.com/user-attachments/assets/b553b3c3-3b52-418c-8573-bee45f875bb6)
+
+
+
+![Lab test result](https://github.com/user-attachments/assets/f1dd11a9-12f9-49dc-a475-b82bde4d49a6)
+
+
+
+![Catch the call scammer lab](https://github.com/user-attachments/assets/e5bd28dc-b098-496e-908b-e62dcbf476ee)
+
+
+
+![Capturing wifi lab](https://github.com/user-attachments/assets/45ca2a3f-8e71-4c44-962c-688bc9bb2b1d)
+
+## Recommendations 👨‍🔧
+- Enforce HTTPS so credentials aren't sent in clear text.
+- Add rate limiting, account lockout, and MFA against brute-force attacks.
+- Create IDS/SIEM alerts for scanning and repeated failed logins.
+- Block scam call sources and train staff to spot vishing.
+
+## Takeaways🍱
+- Cleartext protocols expose everything to anyone capturing traffic.
+- Brute-force attacks show up as many repeated attempts from one source.
+- Following TCP streams turns thousands of packets into readable conversations.
+
+Note: All captures are from training labs. Credentials are redacted in screenshots.
 
 
